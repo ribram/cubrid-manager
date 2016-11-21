@@ -42,6 +42,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -114,6 +116,27 @@ public class JdbcManageComposite extends
 			map.put("1", url);
 			jdbcListData.add(map);
 		}
+		jdbcInfoTv.setComparator(new ViewerComparator(){
+			public int compare(Viewer viewer, Object e1, Object e2){
+				Map<String, String> map1 = (Map<String, String>)e1;
+				Map<String, String> map2 = (Map<String, String>)e2;
+				
+				String version1 = map1.get("0");
+				String version2 = map2.get("0");
+				String[] version1Tokens = version1.substring(version1.lastIndexOf('-')+1).split("\\.");
+				String[] version2Tokens = version2.substring(version2.lastIndexOf('-')+1).split("\\.");
+				
+				for(int i = 0; i < version1Tokens.length; i++){
+					Integer first = Integer.parseInt(version1Tokens[i]);
+					Integer second = Integer.parseInt(version2Tokens[i]);
+					if(first != second){
+						return second-first;
+					}
+				}
+				
+				return 0;
+			}
+		});
 		jdbcInfoTv.refresh();
 		CommonUITool.packTable(jdbcInfoTv);
 	}
