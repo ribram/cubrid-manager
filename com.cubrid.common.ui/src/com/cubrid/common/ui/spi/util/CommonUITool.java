@@ -52,6 +52,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.Util;
@@ -65,6 +66,7 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.osgi.service.environment.Constants;
 import org.eclipse.swt.BufferedImageUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
@@ -81,6 +83,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -458,6 +461,11 @@ public final class CommonUITool {
 	public static void openInformationBox(String msg) {
 		openInformationBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 				Messages.titleInformation, msg);
+	}
+	
+	public static void openInformationBoxWithScroll(ArrayList<String> strings, String title, String information){
+		Dialog messageDialog = new MessageDialogWithScroll(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, information, strings);
+		messageDialog.open();
 	}
 
 		Dialog messageDialog = new MessageDialogWithScrollableMessage(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, information, strings);
@@ -1739,4 +1747,43 @@ public final class CommonUITool {
 		}
 		return false;
 	}
+}
+
+class MessageDialogWithScroll extends MessageDialog {
+
+	public ArrayList<String> strings;
+	
+    public MessageDialogWithScroll(Shell parentShell, String title, String information, ArrayList<String> strings) {
+    	super(parentShell, title, null, information,
+                MessageDialog.INFORMATION, new String[] {  "OK" }, 0);
+    	this.strings = strings;
+    }
+
+    @Override
+    public Control createDialogArea(Composite parent) {
+    	Composite content = (Composite) super.createDialogArea(parent);
+    	content.setLayout(new GridLayout());
+        GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+        data.heightHint = 500;
+        data.widthHint = 250;
+        
+    	
+    	ScrolledComposite sc = new ScrolledComposite(content, SWT.H_SCROLL
+                | SWT.V_SCROLL | SWT.BORDER);
+
+        Composite composite = new Composite(sc, SWT.NONE);
+        composite.setLayout(new FillLayout(SWT.VERTICAL));
+        for(String s : strings){
+            Label l = new Label(composite, SWT.NONE);
+            l.setText(s);
+        }
+        
+        sc.setLayoutData(data);
+        sc.setContent(composite);
+        sc.setExpandHorizontal(true);
+        sc.setExpandVertical(true);
+        sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
+        return parent; 
+    }
 }
