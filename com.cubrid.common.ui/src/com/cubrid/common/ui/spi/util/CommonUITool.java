@@ -105,6 +105,7 @@ import org.slf4j.Logger;
 import com.cubrid.common.core.util.DateUtil;
 import com.cubrid.common.core.util.LogUtil;
 import com.cubrid.common.core.util.StringUtil;
+import com.cubrid.common.ui.common.dialog.MessageDialogWithScrollableMessage;
 import com.cubrid.common.ui.common.navigator.CubridDeferredTreeContentManager;
 import com.cubrid.common.ui.common.navigator.DeferredContentProvider;
 import com.cubrid.common.ui.query.action.CopyAction;
@@ -459,6 +460,7 @@ public final class CommonUITool {
 				Messages.titleInformation, msg);
 	}
 
+		Dialog messageDialog = new MessageDialogWithScrollableMessage(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, information, strings);
 	/**
 	 *
 	 * Open Warning box
