@@ -464,11 +464,10 @@ public final class CommonUITool {
 	}
 	
 	public static void openInformationBoxWithScroll(ArrayList<String> strings, String title, String information){
-		Dialog messageDialog = new MessageDialogWithScroll(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, information, strings);
+		Dialog messageDialog = new MessageDialogWithScrollableMessage(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, information, strings);
 		messageDialog.open();
 	}
 
-		Dialog messageDialog = new MessageDialogWithScrollableMessage(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, information, strings);
 	/**
 	 *
 	 * Open Warning box
