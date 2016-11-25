@@ -126,15 +126,17 @@ public class JdbcManageComposite extends
 				String[] version1Tokens = version1.substring(version1.lastIndexOf('-')+1).split("\\.");
 				String[] version2Tokens = version2.substring(version2.lastIndexOf('-')+1).split("\\.");
 				
-				for(int i = 0; i < version1Tokens.length; i++){
+				int size = Math.min(version1Tokens.length, version2Tokens.length);
+				
+				for(int i = 0; i < size; i++){
 					Integer first = Integer.parseInt(version1Tokens[i]);
 					Integer second = Integer.parseInt(version2Tokens[i]);
 					if(first != second){
 						return second-first;
 					}
 				}
-				
-				return 0;
+				return version1Tokens.length == version2Tokens.length ? 
+						0 : (version2Tokens.length - version1Tokens.length);
 			}
 		});
 		jdbcInfoTv.refresh();
