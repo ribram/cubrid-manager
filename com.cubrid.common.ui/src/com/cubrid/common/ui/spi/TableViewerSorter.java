@@ -27,6 +27,7 @@
  */
 package com.cubrid.common.ui.spi;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,14 +50,14 @@ public class TableViewerSorter extends
 	protected int column;
 	protected int direction;
 	
-	private Map<Integer, ViewerComparator> columnComparators;
+	private Map<Integer, Comparator<String>> columnComparators;
 	
-	public TableViewerSorter(Map<Integer, ViewerComparator> columnComparators){
+	public TableViewerSorter(Map<Integer, Comparator<String>> columnComparators){
 		this.columnComparators = columnComparators;
 	}
 	
 	public TableViewerSorter(){
-		columnComparators = new HashMap<Integer, ViewerComparator>();
+		columnComparators = new HashMap<Integer, Comparator<String>>();
 	}
 
 	/**
@@ -91,16 +92,6 @@ public class TableViewerSorter extends
 			return 0;
 		}
 		int rc = 0;
-		if(columnComparators != null){
-			ViewerComparator viewerComparator;
-			if((viewerComparator = columnComparators.get(column)) != null){
-				rc = viewerComparator.compare(viewer, e1, e2);
-				if (direction == DESCENDING) {
-					rc = -rc;
-				}
-				return rc;
-			}
-		}
 		Map map1 = (Map) e1;
 		Map map2 = (Map) e2;
 		Object obj1 = map1.get("" + column);
@@ -118,7 +109,15 @@ public class TableViewerSorter extends
 		} else if (obj1 instanceof String && obj2 instanceof String) {
 			String str1 = (String) obj1;
 			String str2 = (String) obj2;
-			rc = str1.compareTo(str2);
+			
+			Comparator<String> comparator;
+			if((comparator = columnComparators.get(column)) != null){
+				rc = comparator.compare(str1, str2);
+			}else{
+				rc = str1.compareTo(str2);
+			}
+		} else {
+			return 0;
 		}
 		// If descending order, flip the direction
 		if (direction == DESCENDING) {
@@ -145,7 +144,7 @@ public class TableViewerSorter extends
 		}
 	}
 	
-	public void setColumnComparator(Integer column, ViewerComparator viewerComparator){
-		columnComparators.put(column, viewerComparator);
+	public void setColumnComparator(Integer column, Comparator<String> comparator){
+		columnComparators.put(column, comparator);
 	}
 }

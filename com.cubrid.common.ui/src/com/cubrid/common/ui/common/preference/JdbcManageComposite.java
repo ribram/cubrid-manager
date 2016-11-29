@@ -30,6 +30,7 @@ package com.cubrid.common.ui.common.preference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -143,15 +144,10 @@ public class JdbcManageComposite extends
 				Messages.tblColDriverVersion, Messages.tblColJarPath };
 		
 		TableViewerSorter sorter = new TableViewerSorter();
-		sorter.setColumnComparator(0, new ViewerComparator(){
-			public int compare(Viewer viewer, Object e1, Object e2){
-				Map<String, String> map1 = (Map<String, String>)e1;
-				Map<String, String> map2 = (Map<String, String>)e2;
-				
-				String version1 = map1.get("0");
-				String version2 = map2.get("0");
-				String[] version1Tokens = version1.substring(version1.lastIndexOf('-')+1).split("\\.");
-				String[] version2Tokens = version2.substring(version2.lastIndexOf('-')+1).split("\\.");
+		sorter.setColumnComparator(0, new Comparator<String>(){
+			public int compare(String s1, String s2){
+				String[] version1Tokens = s1.substring(s1.lastIndexOf('-')+1).split("\\.");
+				String[] version2Tokens = s2.substring(s2.lastIndexOf('-')+1).split("\\.");
 				
 				int size = Math.min(version1Tokens.length, version2Tokens.length);
 				
