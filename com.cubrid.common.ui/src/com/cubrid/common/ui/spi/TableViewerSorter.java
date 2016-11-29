@@ -27,9 +27,11 @@
  */
 package com.cubrid.common.ui.spi;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerSorter;
 
 /**
@@ -43,9 +45,19 @@ public class TableViewerSorter extends
 		ViewerSorter {
 	protected static final int ASCENDING = 0;
 	protected static final int DESCENDING = 1;
-
+;
 	protected int column;
 	protected int direction;
+	
+	private Map<Integer, ViewerComparator> columnComparators;
+	
+	public TableViewerSorter(Map<Integer, ViewerComparator> columnComparators){
+		this.columnComparators = columnComparators;
+	}
+	
+	public TableViewerSorter(){
+		columnComparators = new HashMap<Integer, ViewerComparator>();
+	}
 
 	/**
 	 * Does the sort. If it's a different column from the previous sort, do an
@@ -79,6 +91,16 @@ public class TableViewerSorter extends
 			return 0;
 		}
 		int rc = 0;
+		if(columnComparators != null){
+			ViewerComparator viewerComparator;
+			if((viewerComparator = columnComparators.get(column)) != null){
+				rc = viewerComparator.compare(viewer, e1, e2);
+				if (direction == DESCENDING) {
+					rc = -rc;
+				}
+				return rc;
+			}
+		}
 		Map map1 = (Map) e1;
 		Map map2 = (Map) e2;
 		Object obj1 = map1.get("" + column);
@@ -121,5 +143,9 @@ public class TableViewerSorter extends
 		} else {
 			this.direction = DESCENDING;
 		}
+	}
+	
+	public void setColumnComparator(Integer column, ViewerComparator viewerComparator){
+		columnComparators.put(column, viewerComparator);
 	}
 }

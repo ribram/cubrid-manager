@@ -116,29 +116,6 @@ public class JdbcManageComposite extends
 			map.put("1", url);
 			jdbcListData.add(map);
 		}
-		jdbcInfoTv.setComparator(new ViewerComparator(){
-			public int compare(Viewer viewer, Object e1, Object e2){
-				Map<String, String> map1 = (Map<String, String>)e1;
-				Map<String, String> map2 = (Map<String, String>)e2;
-				
-				String version1 = map1.get("0");
-				String version2 = map2.get("0");
-				String[] version1Tokens = version1.substring(version1.lastIndexOf('-')+1).split("\\.");
-				String[] version2Tokens = version2.substring(version2.lastIndexOf('-')+1).split("\\.");
-				
-				int size = Math.min(version1Tokens.length, version2Tokens.length);
-				
-				for(int i = 0; i < size; i++){
-					Integer first = Integer.parseInt(version1Tokens[i]);
-					Integer second = Integer.parseInt(version2Tokens[i]);
-					if(first != second){
-						return second-first;
-					}
-				}
-				return version1Tokens.length == version2Tokens.length ? 
-						0 : (version2Tokens.length - version1Tokens.length);
-			}
-		});
 		jdbcInfoTv.refresh();
 		CommonUITool.packTable(jdbcInfoTv);
 	}
@@ -164,7 +141,31 @@ public class JdbcManageComposite extends
 	private void createJdbcTableGroup(Composite composite) {
 		final String[] columnNameArr = new String[]{
 				Messages.tblColDriverVersion, Messages.tblColJarPath };
+		
 		TableViewerSorter sorter = new TableViewerSorter();
+		sorter.setColumnComparator(0, new ViewerComparator(){
+			public int compare(Viewer viewer, Object e1, Object e2){
+				Map<String, String> map1 = (Map<String, String>)e1;
+				Map<String, String> map2 = (Map<String, String>)e2;
+				
+				String version1 = map1.get("0");
+				String version2 = map2.get("0");
+				String[] version1Tokens = version1.substring(version1.lastIndexOf('-')+1).split("\\.");
+				String[] version2Tokens = version2.substring(version2.lastIndexOf('-')+1).split("\\.");
+				
+				int size = Math.min(version1Tokens.length, version2Tokens.length);
+				
+				for(int i = 0; i < size; i++){
+					Integer first = Integer.parseInt(version1Tokens[i]);
+					Integer second = Integer.parseInt(version2Tokens[i]);
+					if(first != second){
+						return second-first;
+					}
+				}
+				return version1Tokens.length == version2Tokens.length ? 
+						0 : (version2Tokens.length - version1Tokens.length);
+			}
+		});
 		sorter.setAsc(false);
 		jdbcInfoTv = CommonUITool.createCommonTableViewer(composite, sorter,
 				columnNameArr,
