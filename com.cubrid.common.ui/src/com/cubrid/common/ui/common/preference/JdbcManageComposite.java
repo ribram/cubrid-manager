@@ -144,22 +144,29 @@ public class JdbcManageComposite extends
 				Messages.tblColDriverVersion, Messages.tblColJarPath };
 		
 		TableViewerSorter sorter = new TableViewerSorter();
-		sorter.setColumnComparator(0, new Comparator<String>(){
-			public int compare(String s1, String s2){
-				String[] version1Tokens = s1.substring(s1.lastIndexOf('-')+1).split("\\.");
-				String[] version2Tokens = s2.substring(s2.lastIndexOf('-')+1).split("\\.");
+		sorter.setColumnComparator(0, new Comparator<Object>(){
+			public int compare(Object o1, Object o2){
+				if(o1 instanceof String && o2 instanceof String){
+					String s1 = (String)o1;
+					String s2 = (String)o2;
 				
-				int size = Math.min(version1Tokens.length, version2Tokens.length);
-				
-				for(int i = 0; i < size; i++){
-					Integer first = Integer.parseInt(version1Tokens[i]);
-					Integer second = Integer.parseInt(version2Tokens[i]);
-					if(first != second){
-						return second-first;
+					String[] version1Tokens = s1.substring(s1.lastIndexOf('-')+1).split("\\.");
+					String[] version2Tokens = s2.substring(s2.lastIndexOf('-')+1).split("\\.");
+					
+					int size = Math.min(version1Tokens.length, version2Tokens.length);
+					
+					for(int i = 0; i < size; i++){
+						Integer first = Integer.parseInt(version1Tokens[i]);
+						Integer second = Integer.parseInt(version2Tokens[i]);
+						if(first != second){
+							return second-first;
+						}
 					}
+					return version1Tokens.length == version2Tokens.length ? 
+							0 : (version2Tokens.length - version1Tokens.length);
+				} else {
+					return 0;
 				}
-				return version1Tokens.length == version2Tokens.length ? 
-						0 : (version2Tokens.length - version1Tokens.length);
 			}
 		});
 		sorter.setAsc(false);

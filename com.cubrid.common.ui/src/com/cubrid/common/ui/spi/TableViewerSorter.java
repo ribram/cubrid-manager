@@ -50,14 +50,14 @@ public class TableViewerSorter extends
 	protected int column;
 	protected int direction;
 	
-	private Map<Integer, Comparator<String>> columnComparators;
+	private Map<Integer, Comparator<Object>> columnComparators;
 	
-	public TableViewerSorter(Map<Integer, Comparator<String>> columnComparators){
+	public TableViewerSorter(Map<Integer, Comparator<Object>> columnComparators){
 		this.columnComparators = columnComparators;
 	}
 	
 	public TableViewerSorter(){
-		columnComparators = new HashMap<Integer, Comparator<String>>();
+		columnComparators = new HashMap<Integer, Comparator<Object>>();
 	}
 
 	/**
@@ -96,7 +96,11 @@ public class TableViewerSorter extends
 		Map map2 = (Map) e2;
 		Object obj1 = map1.get("" + column);
 		Object obj2 = map2.get("" + column);
-		if (obj1 instanceof Number && obj2 instanceof Number) {
+		Comparator<Object> comparator = columnComparators.get(column);
+		
+		if (comparator != null) {
+			rc = comparator.compare (obj1, obj2);
+		}else if (obj1 instanceof Number && obj2 instanceof Number) {
 			Number num1 = (Number) obj1;
 			Number num2 = (Number) obj2;
 			if (num1.doubleValue() > num2.doubleValue()) {
@@ -109,13 +113,7 @@ public class TableViewerSorter extends
 		} else if (obj1 instanceof String && obj2 instanceof String) {
 			String str1 = (String) obj1;
 			String str2 = (String) obj2;
-			
-			Comparator<String> comparator;
-			if((comparator = columnComparators.get(column)) != null){
-				rc = comparator.compare(str1, str2);
-			}else{
-				rc = str1.compareTo(str2);
-			}
+			rc = str1.compareTo(str2);
 		} else {
 			return 0;
 		}
@@ -144,7 +142,7 @@ public class TableViewerSorter extends
 		}
 	}
 	
-	public void setColumnComparator(Integer column, Comparator<String> comparator){
+	public void setColumnComparator(Integer column, Comparator<Object> comparator){
 		columnComparators.put(column, comparator);
 	}
 }
