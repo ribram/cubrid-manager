@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerSorter;
 
 /**
@@ -46,7 +45,7 @@ public class TableViewerSorter extends
 		ViewerSorter {
 	protected static final int ASCENDING = 0;
 	protected static final int DESCENDING = 1;
-;
+
 	protected int column;
 	protected int direction;
 	
@@ -100,7 +99,7 @@ public class TableViewerSorter extends
 		
 		if (comparator != null) {
 			rc = comparator.compare (obj1, obj2);
-		}else if (obj1 instanceof Number && obj2 instanceof Number) {
+		} else if (obj1 instanceof Number && obj2 instanceof Number) {
 			Number num1 = (Number) obj1;
 			Number num2 = (Number) obj2;
 			if (num1.doubleValue() > num2.doubleValue()) {
