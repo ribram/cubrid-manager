@@ -49,9 +49,9 @@ public class TableViewerSorter extends
 	protected int column;
 	protected int direction;
 	
-	private Map<Integer, Comparator<Object>> columnComparators;
+	private HashMap<Integer, Comparator<Object>> columnComparators;
 	
-	public TableViewerSorter(Map<Integer, Comparator<Object>> columnComparators){
+	public TableViewerSorter(HashMap<Integer, Comparator<Object>> columnComparators){
 		this.columnComparators = columnComparators;
 	}
 	

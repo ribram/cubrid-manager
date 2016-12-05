@@ -160,8 +160,7 @@ public class JdbcManageComposite extends
 							return second-first;
 						}
 					}
-					return version1Tokens.length == version2Tokens.length ? 
-							0 : (version2Tokens.length - version1Tokens.length);
+					return version2Tokens.length - version1Tokens.length;
 				} else {
 					return 0;
 				}
