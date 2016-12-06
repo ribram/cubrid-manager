@@ -1,10 +1,10 @@
 package com.cubrid.common.ui.common.dialog;
 
-import java.util.ArrayList;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -13,36 +13,39 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import com.cubrid.common.ui.query.Messages;
 
 public class MessageDialogWithScrollableMessage extends MessageDialog {
 
-	public ArrayList<String> strings;
+	private String message;
 	
-    public MessageDialogWithScrollableMessage(Shell parentShell, String title, String information, ArrayList<String> strings) {
-    	super(parentShell, title, null, information,
-                MessageDialog.INFORMATION, new String[] {Messages.btnOK}, 0);
-    	this.strings = strings;
+    public MessageDialogWithScrollableMessage(Shell parentShell, String title, Image titleImage, String informativeMessage, String actualMessage, int imageType, String[] buttonLabels) {
+    	super(parentShell, title, null, informativeMessage,
+    			imageType, buttonLabels, 0);
+    	this.message = actualMessage;
+    }
+    
+    public MessageDialogWithScrollableMessage(Shell parentShell, String title, Image titleImage, String message, int imageType, String[] buttonLabels) {
+    	super(parentShell, title, null, message,
+    			imageType, buttonLabels, 0);
+    	this.message = "";
     }
 
     @Override
     public Control createDialogArea(Composite parent) {
+    	if(this.message.length() == 0){
+    		return super.createDialogArea(parent);
+    	}
     	Composite content = (Composite) super.createDialogArea(parent);
     	content.setLayout(new GridLayout());
         GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-        data.heightHint = 500;
-        data.widthHint = 250;
-        
     	
     	ScrolledComposite sc = new ScrolledComposite(content, SWT.H_SCROLL
-                | SWT.V_SCROLL | SWT.BORDER);
+                | SWT.V_SCROLL);
 
         Composite composite = new Composite(sc, SWT.NONE);
         composite.setLayout(new FillLayout(SWT.VERTICAL));
-        for(String s : strings){
-            Label l = new Label(composite, SWT.NONE);
-            l.setText(s);
-        }
+        Label l = new Label(composite, SWT.NONE);
+        l.setText(message);
         
         sc.setLayoutData(data);
         sc.setContent(composite);

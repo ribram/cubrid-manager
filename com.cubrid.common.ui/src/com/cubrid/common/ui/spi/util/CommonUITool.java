@@ -366,8 +366,21 @@ public final class CommonUITool {
 		if (shell == null) {
 			shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		}
-		MessageDialog dialog = new MessageDialog(shell, title, null, msg, dialogImageType,
-				dialogButton, 0);
+		MessageDialogWithScrollableMessage dialog = new MessageDialogWithScrollableMessage(shell, title, null, msg, dialogImageType,
+				dialogButton);
+		return dialog.open();
+	}
+	
+	public static int openMsgBox(Shell sh, int dialogImageType, String title, String informativeMessage, String actualMessage,
+			String[] dialogButton) {
+		Shell shell = sh;
+		if (shell == null) {
+			shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+					.getShell();
+		}
+		MessageDialogWithScrollableMessage dialog = new MessageDialogWithScrollableMessage(
+				shell, title, null, informativeMessage, actualMessage,
+				dialogImageType, dialogButton);
 		return dialog.open();
 	}
 
@@ -442,6 +455,10 @@ public final class CommonUITool {
 		openMsgBox(sh, MessageDialog.INFORMATION, title, msg, new String[] { Messages.btnOk });
 	}
 
+	public static void openInformationBox(Shell sh, String title, String informativeMessage, String actualMessage) {
+		openMsgBox(sh, MessageDialog.INFORMATION, title, informativeMessage, actualMessage, new String[] { Messages.btnOk });
+	}
+	
 	/**
 	 * Open information box
 	 *
@@ -451,6 +468,11 @@ public final class CommonUITool {
 	public static void openInformationBox(String title, String msg) {
 		openInformationBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title,
 				msg);
+	}
+	
+	public static void openInformationBox(String title, String informativeMessage, String actualMessage) {
+		openInformationBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title,
+				informativeMessage, actualMessage);
 	}
 
 	/**
@@ -463,10 +485,6 @@ public final class CommonUITool {
 				Messages.titleInformation, msg);
 	}
 	
-	public static void openInformationBoxWithScroll(ArrayList<String> strings, String title, String information){
-		Dialog messageDialog = new MessageDialogWithScrollableMessage(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, information, strings);
-		messageDialog.open();
-	}
 
 	/**
 	 *
