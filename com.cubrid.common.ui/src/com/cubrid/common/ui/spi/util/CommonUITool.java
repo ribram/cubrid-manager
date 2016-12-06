@@ -359,13 +359,7 @@ public final class CommonUITool {
 	 */
 	public static int openMsgBox(Shell sh, int dialogImageType, String title, String msg,
 			String[] dialogButton) {
-		Shell shell = sh;
-		if (shell == null) {
-			shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		}
-		MessageDialogWithScrollableMessage dialog = new MessageDialogWithScrollableMessage(shell, title, null, msg, dialogImageType,
-				dialogButton);
-		return dialog.open();
+		return openMsgBox(sh, dialogImageType, title, msg, "", dialogButton);
 	}
 	
 	public static int openMsgBox(Shell sh, int dialogImageType, String title, String informativeMessage, String actualMessage,

@@ -23,12 +23,6 @@ public class MessageDialogWithScrollableMessage extends MessageDialog {
     			imageType, buttonLabels, 0);
     	this.message = actualMessage;
     }
-    
-    public MessageDialogWithScrollableMessage(Shell parentShell, String title, Image titleImage, String message, int imageType, String[] buttonLabels) {
-    	super(parentShell, title, null, message,
-    			imageType, buttonLabels, 0);
-    	this.message = "";
-    }
 
     @Override
     public Control createDialogArea(Composite parent) {
