@@ -13,13 +13,15 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import com.cubrid.common.ui.query.Messages;
+
 public class MessageDialogWithScrollableMessage extends MessageDialog {
 
 	public ArrayList<String> strings;
 	
     public MessageDialogWithScrollableMessage(Shell parentShell, String title, String information, ArrayList<String> strings) {
     	super(parentShell, title, null, information,
-                MessageDialog.INFORMATION, new String[] {  "OK" }, 0);
+                MessageDialog.INFORMATION, new String[] {Messages.btnOK}, 0);
     	this.strings = strings;
     }
 
