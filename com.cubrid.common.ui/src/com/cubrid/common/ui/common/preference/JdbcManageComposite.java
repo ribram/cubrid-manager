@@ -274,11 +274,11 @@ public class JdbcManageComposite extends
 	 * Update new jdbc drivers.
 	 */
 	private void updateNewJdbcDrivers() {
+
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
 					String downloadedFiles = "";
-
 					JDBCDriverDownloadTask task = new JDBCDriverDownloadTask();
 					String savedPath = getDefaultJDBCSavedPath();
 					List<String> jdbcList = task.getJDBCFileList();
@@ -295,7 +295,7 @@ public class JdbcManageComposite extends
 					if (taskExec.isSuccess()) {
 						List<String> downloadedList = task.getDriverList();
 						if (downloadedList != null && downloadedList.size() > 0) {
-							downloadedFiles = downloadedList.toString();
+							downloadedFiles = downloadedList.toString().replace(',', '\n');
 							for (int i = 0; i < jdbcList.size(); i++) {
 								String path = savedPath + File.separator
 										+ jdbcList.get(i);
@@ -303,12 +303,7 @@ public class JdbcManageComposite extends
 							}
 						}
 					}
-
-					String message = Messages.bind(
-							Messages.jdbcDriverDownloadSuccessMsg,
-							downloadedFiles);
-					CommonUITool.openInformationBox(Messages.titleSuccess,
-							message);
+					CommonUITool.openInformationBox(Messages.titleSuccess, Messages.jdbcDriverDownloadSuccessMsg, downloadedFiles);
 				} catch (Exception e) {
 					LOGGER.error("", e);
 				}
