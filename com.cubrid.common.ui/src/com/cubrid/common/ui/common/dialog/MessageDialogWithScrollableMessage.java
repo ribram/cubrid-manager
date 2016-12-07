@@ -16,10 +16,10 @@ public class MessageDialogWithScrollableMessage extends MessageDialog {
 
 	private String message;
 	
-    public MessageDialogWithScrollableMessage(Shell parentShell, String title, Image titleImage, String informativeMessage, String actualMessage, int imageType, String[] buttonLabels) {
-    	super(parentShell, title, null, informativeMessage,
+    public MessageDialogWithScrollableMessage(Shell parentShell, String title, Image titleImage, String mainMessage, String secondaryMessage, int imageType, String[] buttonLabels) {
+    	super(parentShell, title, null, mainMessage,
     			imageType, buttonLabels, 0);
-    	this.message = actualMessage;
+    	this.message = secondaryMessage;
     }
 
     @Override
