@@ -1337,4 +1337,23 @@ public final class StringUtil {
 		int lengthOfInterimString = sb.length();
 		return sb.toString().substring(lengthOfInterimString - size, lengthOfInterimString);
 	}
+	
+	public static String getOrdinalFromCardinalNumber(int number){
+		String order = new String();
+		switch(number){
+			case 1: 
+				order = "1st";
+				break;
+			case 2: 
+				order = "2nd";
+				break;
+			case 3: 
+				order = "3rd";
+				break;
+			default: 
+				order = (number) + "th"; 
+				break;
+		}
+		return order;
+	}
 }
