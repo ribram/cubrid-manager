@@ -96,8 +96,8 @@ import com.cubrid.jdbc.proxy.driver.CUBRIDOIDProxy;
  *
  * @author robin 2009-7-6
  */
-public class RowDetailDialog extends CMTitleAreaDialog {
-	private static final Logger LOGGER = LogUtil.getLogger(RowDetailDialog.class);
+public class ColumnDetailDialog extends CMTitleAreaDialog {
+	private static final Logger LOGGER = LogUtil.getLogger(ColumnDetailDialog.class);
 
 	private final List<ColumnInfo> columnInfoList;
 	private final TableItem dataItem;
@@ -124,7 +124,7 @@ public class RowDetailDialog extends CMTitleAreaDialog {
 	 * @param columnName
 	 * @param qe
 	 */
-	public RowDetailDialog(Shell parentShell, List<ColumnInfo> allColumnList,
+	public ColumnDetailDialog(Shell parentShell, List<ColumnInfo> allColumnList,
 			Map<String, CellValue> dataMap, TableItem tableItem,
 			String columnName, QueryExecuter qe) {
 		super(parentShell);
@@ -247,8 +247,8 @@ public class RowDetailDialog extends CMTitleAreaDialog {
 		createColumnValueGroup(composite);
 		createFileGroup(composite);
 		initial();
-		setTitle(Messages.titleRowDetailDialog);
-		setMessage(Messages.msgRowDetailDialog);
+		setTitle(Messages.titleColumnDetailDialog);
+		setMessage(Messages.msgColumnDetailDialog);
 		return parentComp;
 	}
 
@@ -882,7 +882,7 @@ public class RowDetailDialog extends CMTitleAreaDialog {
 	 * @see com.cubrid.common.ui.spi.dialog.CMTitleAreaDialog#constrainShellSize()
 	 */
 	protected void constrainShellSize() {
-		getShell().setText(Messages.titleRowDetailDialog);
+		getShell().setText(Messages.titleColumnDetailDialog);
 		super.constrainShellSize();
 	}
 }
