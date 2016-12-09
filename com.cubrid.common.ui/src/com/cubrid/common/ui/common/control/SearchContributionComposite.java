@@ -95,8 +95,8 @@ public class SearchContributionComposite extends
 			textData.right = new FormAttachment(100, 0);
 		} else {
 			textData.top = new FormAttachment(0, 0);
-			textData.bottom = new FormAttachment(0, 21);
-			textData.left = new FormAttachment(0, 3);
+			textData.bottom = new FormAttachment(0, 30);
+			textData.left = new FormAttachment(0, 0);
 			textData.right = new FormAttachment(100, -31);
 		}
 		text.setLayoutData(textData);
@@ -119,9 +119,9 @@ public class SearchContributionComposite extends
 			searchButton.setImage(CommonUIPlugin.getImage("icons/control/search.png"));
 			final FormData buttonData = new FormData();
 			buttonData.top = new FormAttachment(0, -3);
-			buttonData.bottom = new FormAttachment(0, 20);
+			buttonData.bottom = new FormAttachment(0, 30);
 			buttonData.left = new FormAttachment(100, -28);
-			buttonData.right = new FormAttachment(100, -3);
+			buttonData.right = new FormAttachment(100, 0);
 			searchButton.setLayoutData(buttonData);
 			searchButton.setToolTipText(Messages.btnSearchTooltip);
 			searchButton.addSelectionListener(new SelectionAdapter() {
@@ -131,16 +131,6 @@ public class SearchContributionComposite extends
 			});
 
 			createSpaceRow(group);
-
-			final Label descLabel = new Label(group, SWT.None);
-			descLabel.setAlignment(SWT.CENTER);
-			final FormData descLabelData = new FormData();
-			descLabelData.top = new FormAttachment(0, 22);
-			descLabelData.bottom = new FormAttachment(100, 0);
-			descLabelData.left = new FormAttachment(0, 0);
-			descLabelData.right = new FormAttachment(100, 0);
-			descLabel.setLayoutData(descLabelData);
-			descLabel.setText(Messages.lblSearchDesc);
 		}
 	}
 

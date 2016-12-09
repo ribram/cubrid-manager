@@ -283,7 +283,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 			}
 
 			protected int computeWidth(Control control) {
-				return 160;
+				return 250;
 			}
 		};
 		searchContribution.setId(IPerspectiveConstance.SEARCH_ACTION_CONTRIBUTION_ID);
