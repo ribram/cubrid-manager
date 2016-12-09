@@ -417,7 +417,7 @@ public class ERSchemaToolBar extends
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		final Button autoLayoutButton = new Button(comp, SWT.PUSH | SWT.CENTER);
-		autoLayoutButton.setLayoutData(CommonUITool.createGridData(1, 1, 98, 20));
+		autoLayoutButton.setLayoutData(CommonUITool.createGridData(1, 1, 98, 28));
 		autoLayoutButton.setText(Messages.btnAutoLayout);
 		autoLayoutButton.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
