@@ -111,6 +111,7 @@ public class ERSchemaToolBar extends
 	 * Init items on the tool bar
 	 */
 	public void init() {
+		setSize(computeSize(SWT.DEFAULT, 40));
 		loginState = erSchemaEditor.getDatabase().isLogined();
 		selectDbItem = new ToolItem(this, SWT.SEPARATOR);
 		Composite comp = createSelectDbLabel();
@@ -252,7 +253,7 @@ public class ERSchemaToolBar extends
 		autoLayoutItem = new ToolItem(this, SWT.SEPARATOR);
 		Composite autoLayoutComp = createAutoLayoutComp();
 		autoLayoutItem.setControl(autoLayoutComp);
-		autoLayoutItem.setWidth(100);
+		autoLayoutItem.setWidth(120);
 		new ToolItem(this, SWT.SEPARATOR | SWT.VERTICAL);
 
 		// search comp
@@ -409,15 +410,13 @@ public class ERSchemaToolBar extends
 	private Composite createAutoLayoutComp() {
 		Composite comp = new Composite(this, SWT.NONE);
 		final GridLayout gdLayout = new GridLayout(1, false);
-		gdLayout.marginHeight = 1;
-		gdLayout.marginWidth = 1;
-		gdLayout.horizontalSpacing = 2;
-		gdLayout.verticalSpacing = 0;
+		final GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		
 		comp.setLayout(gdLayout);
-		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		comp.setLayoutData(gridData);
 
-		final Button autoLayoutButton = new Button(comp, SWT.PUSH | SWT.CENTER);
-		autoLayoutButton.setLayoutData(CommonUITool.createGridData(1, 1, 98, 20));
+		final Button autoLayoutButton = new Button(comp, SWT.PUSH | SWT.CENTER | SWT.FILL);
+		autoLayoutButton.setLayoutData(gridData);
 		autoLayoutButton.setText(Messages.btnAutoLayout);
 		autoLayoutButton.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
