@@ -41,6 +41,9 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -81,25 +84,14 @@ public class SearchContributionComposite extends
 
 		boolean isMac = Util.isMac();
 		final Composite group = isMac ? new Composite(this, SWT.None) : new Group(this, SWT.None);
-		group.setLayout(new FormLayout());
+		group.setLayout(new GridLayout(5, false));
 
-		text = new Text(group, SWT.SEARCH | SWT.ICON_SEARCH | SWT.ICON_CANCEL);
+		text = new Text(group, SWT.FILL | SWT.SEARCH | SWT.ICON_SEARCH | SWT.ICON_CANCEL);
 		text.setToolTipText(Messages.lblSearchDesc);
+		final GridData gridData = new GridData();
+		gridData.widthHint = 190;
+		text.setLayoutData(gridData);
 		text.setMessage(Messages.msgSearchKeyword);
-
-		final FormData textData = new FormData();
-		if (isMac) {
-			textData.top = new FormAttachment(0, -25);
-			textData.bottom = new FormAttachment(100, 0);
-			textData.left = new FormAttachment(0, 10);
-			textData.right = new FormAttachment(100, 0);
-		} else {
-			textData.top = new FormAttachment(0, 0);
-			textData.bottom = new FormAttachment(0, 30);
-			textData.left = new FormAttachment(0, 0);
-			textData.right = new FormAttachment(100, -31);
-		}
-		text.setLayoutData(textData);
 
 		text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
@@ -113,24 +105,14 @@ public class SearchContributionComposite extends
 		});
 
 		if (!isMac) {
-			createSpaceRow(group);
-
 			searchButton = new Button(group, SWT.None);
 			searchButton.setImage(CommonUIPlugin.getImage("icons/control/search.png"));
-			final FormData buttonData = new FormData();
-			buttonData.top = new FormAttachment(0, -3);
-			buttonData.bottom = new FormAttachment(0, 30);
-			buttonData.left = new FormAttachment(100, -28);
-			buttonData.right = new FormAttachment(100, 0);
-			searchButton.setLayoutData(buttonData);
 			searchButton.setToolTipText(Messages.btnSearchTooltip);
 			searchButton.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
 					processSearch();
 				}
 			});
-
-			createSpaceRow(group);
 		}
 	}
 
