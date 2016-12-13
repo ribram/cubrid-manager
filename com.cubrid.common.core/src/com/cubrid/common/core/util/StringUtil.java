@@ -1339,7 +1339,7 @@ public final class StringUtil {
 	}
 
 	public static String getOrdinalFromCardinalNumber(int number) {
-		String order = new String();
+		String order;
 		LocaleUtil.LocaleEnum locale = LocaleUtil.JVM_LOCALE;
 
 		switch (locale) {
