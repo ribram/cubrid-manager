@@ -197,8 +197,8 @@ public class Messages extends
 	public static String closeBtn;
 
 	public static String cfmUpdateChangedValue;
-	public static String titleRowDetailDialog;
-	public static String msgRowDetailDialog;
+	public static String titleColumnDetailDialog;
+	public static String msgColumnDetailDialog;
 	public static String msgValueNoChanged;
 	public static String msgValueNoChangedTitle;
 	public static String errMsgServerNull;

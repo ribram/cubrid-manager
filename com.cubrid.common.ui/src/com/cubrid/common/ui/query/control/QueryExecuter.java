@@ -121,7 +121,7 @@ import com.cubrid.common.ui.query.action.NextAction;
 import com.cubrid.common.ui.query.action.PasteAction;
 import com.cubrid.common.ui.query.control.tunemode.TuneModeModel;
 import com.cubrid.common.ui.query.dialog.ExportResultDialog;
-import com.cubrid.common.ui.query.dialog.RowDetailDialog;
+import com.cubrid.common.ui.query.dialog.ColumnDetailDialog;
 import com.cubrid.common.ui.query.editor.QueryEditorPart;
 import com.cubrid.common.ui.query.result.FilterResultContrItem;
 import com.cubrid.common.ui.query.result.QueryResultFilterSetting;
@@ -1211,7 +1211,7 @@ public class QueryExecuter implements IShowMoreOperator{ // FIXME very complicat
 				Map<String, CellValue> map = allDataList.get(pageBeginIndex + location.y);
 				TableItem item = tblResult.getItem(location.y);
 				ColumnInfo colInfo = allColumnList.get(location.x - 1);
-				RowDetailDialog dialog = new RowDetailDialog(tblResult.getShell(), allColumnList, map, item,
+				ColumnDetailDialog dialog = new ColumnDetailDialog(tblResult.getShell(), allColumnList, map, item,
 					colInfo.getName(), executer);
 				dialog.open();
 			}
