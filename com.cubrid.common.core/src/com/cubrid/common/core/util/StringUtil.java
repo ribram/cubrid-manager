@@ -39,6 +39,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import org.slf4j.Logger;
@@ -1337,22 +1338,29 @@ public final class StringUtil {
 		int lengthOfInterimString = sb.length();
 		return sb.toString().substring(lengthOfInterimString - size, lengthOfInterimString);
 	}
-	
-	public static String getOrdinalFromCardinalNumber(int number){
+
+	public static String getOrdinalFromCardinalNumber(int number) {
 		String order = new String();
-		switch(number){
-			case 1: 
-				order = "1st";
+		String locale = Locale.getDefault().toString();
+
+		if (locale.compareTo("en_US") == 0 || locale.compareTo("en_UK") == 0 || locale.compareTo("km_KH") == 0
+				|| locale.compareTo("zh_CN") == 0) {
+			switch (number) {
+			case 1:
+				order = "1'st";
 				break;
-			case 2: 
-				order = "2nd";
+			case 2:
+				order = "2'nd";
 				break;
-			case 3: 
-				order = "3rd";
+			case 3:
+				order = "3'rd";
 				break;
-			default: 
-				order = (number) + "th"; 
+			default:
+				order = (number) + "'th";
 				break;
+			}
+		} else {
+			order = "" + number;
 		}
 		return order;
 	}
