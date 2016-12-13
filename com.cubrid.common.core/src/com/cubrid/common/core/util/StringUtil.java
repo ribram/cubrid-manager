@@ -1341,7 +1341,7 @@ public final class StringUtil {
 
 	public static String getOrdinalFromCardinalNumber(int number) {
 		String order = new String();
-		String locale = Locale.getDefault().toString();
+		String locale = Constants.JVM_LOCALE;
 
 		if (locale.compareTo("en_US") == 0 || locale.compareTo("en_UK") == 0 || locale.compareTo("km_KH") == 0
 				|| locale.compareTo("zh_CN") == 0) {
