@@ -39,7 +39,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Vector;
 
 import org.slf4j.Logger;
