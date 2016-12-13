@@ -1342,29 +1342,37 @@ public final class StringUtil {
 		String order = new String();
 		LocaleUtil.LocaleEnum locale = LocaleUtil.JVM_LOCALE;
 
-		switch(locale){
-			case EN_US:
-			case EN_UK:
-			case KM_KH:
-			case ZH_CN:
-				switch (number) {
-				case 1:
-					order = "1'st";
-					break;
-				case 2:
-					order = "2'nd";
-					break;
-				case 3:
-					order = "3'rd";
-					break;
-				default:
-					order = (number) + "'th";
-					break;
-				}
+		switch (locale) {
+		case EN_US:
+		case EN_UK:
+		case KM_KH:
+		case ZH_CN:
+			switch (number) {
+			case 1:
+				order = "1'st";
+				break;
+			case 2:
+				order = "2'nd";
+				break;
+			case 3:
+				order = "3'rd";
 				break;
 			default:
-				order = "" + number;
-		
+				order = number + "'th";
+				break;
+			}
+			break;
+		case JP_JP:
+			order = number + "'\u756a\u76ee";
+			break;
+		case TR_TR:
+			order = number + "'ci";
+			break;
+		case KO_KR:
+			order = number + "\uBC88\uC9F8";
+			break;
+		default:
+			order = "" + number;
 		}
 		
 		return order;
