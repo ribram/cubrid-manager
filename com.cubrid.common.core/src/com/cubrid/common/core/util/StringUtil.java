@@ -1341,27 +1341,33 @@ public final class StringUtil {
 
 	public static String getOrdinalFromCardinalNumber(int number) {
 		String order = new String();
-		String locale = Constants.JVM_LOCALE;
+		LocaleUtil.LocaleEnum locale = LocaleUtil.JVM_LOCALE;
 
-		if (locale.compareTo("en_US") == 0 || locale.compareTo("en_UK") == 0 || locale.compareTo("km_KH") == 0
-				|| locale.compareTo("zh_CN") == 0) {
-			switch (number) {
-			case 1:
-				order = "1'st";
-				break;
-			case 2:
-				order = "2'nd";
-				break;
-			case 3:
-				order = "3'rd";
+		switch(locale){
+			case EN_US:
+			case EN_UK:
+			case KM_KH:
+			case ZH_CN:
+				switch (number) {
+				case 1:
+					order = "1'st";
+					break;
+				case 2:
+					order = "2'nd";
+					break;
+				case 3:
+					order = "3'rd";
+					break;
+				default:
+					order = (number) + "'th";
+					break;
+				}
 				break;
 			default:
-				order = (number) + "'th";
-				break;
-			}
-		} else {
-			order = "" + number;
+				order = "" + number;
+		
 		}
+		
 		return order;
 	}
 }
