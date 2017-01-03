@@ -493,6 +493,15 @@ public final class CMHostNodePersistManager {
 		}
 		return false;
 	}
+	
+	public boolean isContainedByUserName(String userName){
+		for(CubridServer cs : serverList){
+			if(cs.getServerInfo().getUserName().compareTo(userName) == 0){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 *

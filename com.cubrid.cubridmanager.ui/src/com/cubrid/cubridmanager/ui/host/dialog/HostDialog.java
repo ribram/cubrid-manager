@@ -639,14 +639,23 @@ public class HostDialog extends
 			setEnabled(false);
 			return;
 		}
+		
+		String userName = userNameText.getText();
 		boolean isAddressExist = CMHostNodePersistManager.getInstance().isContainedByHostAddress(
 				address, port, isNewHost ? null : server);
+		boolean isUserNameExist = CMHostNodePersistManager.getInstance().isContainedByUserName(userName);
 		if (isHostExist && isAddressExist) {
 			setErrorMessage(Messages.errAddressExist);
 			setEnabled(false);
 			return;
 		}
-		String userName = userNameText.getText();
+		
+		if(isUserNameExist && isAddressExist){
+			setErrorMessage(Messages.errDuplicateHost);
+			setEnabled(false);
+			return;
+		}
+		
 		boolean isValidUserName = userName.indexOf(" ") < 0
 				&& userName.trim().length() >= 4
 				&& userName.trim().length() <= ValidateUtil.MAX_NAME_LENGTH;

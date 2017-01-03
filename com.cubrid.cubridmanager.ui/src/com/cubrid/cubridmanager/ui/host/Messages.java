@@ -74,6 +74,7 @@ public class Messages extends
 	public static String errUserPassword;
 	public static String errHostExist;
 	public static String errAddressExist;
+	public static String errDuplicateHost;
 	public static String errPort;
 	public static String errConnectionRefused;
 	public static String errConnectionFailed;
