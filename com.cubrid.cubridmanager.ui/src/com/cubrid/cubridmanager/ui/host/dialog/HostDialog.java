@@ -650,7 +650,7 @@ public class HostDialog extends
 			return;
 		}
 		
-		if(isUserNameExist && isAddressExist){
+		if(isUserNameExist && isAddressExist && isNewHost){
 			setErrorMessage(Messages.errDuplicateHost);
 			setEnabled(false);
 			return;
@@ -699,8 +699,13 @@ public class HostDialog extends
 		if (isNewHost) {
 			getButton(ADD_ID).setEnabled(isEnabled);
 		}
-		getButton(CONNECT_ID).setEnabled(isEnabled);
-		getButton(TEST_CONNECT_ID).setEnabled(isEnabled);
+		if(!isNewHost){
+			getButton(CONNECT_ID).setEnabled(true);
+			getButton(TEST_CONNECT_ID).setEnabled(true);
+		}else{
+			getButton(CONNECT_ID).setEnabled(isEnabled);
+			getButton(TEST_CONNECT_ID).setEnabled(isEnabled);
+		}
 	}
 
 	/**
