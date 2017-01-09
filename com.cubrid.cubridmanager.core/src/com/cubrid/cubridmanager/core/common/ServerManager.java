@@ -28,14 +28,13 @@
 
 package com.cubrid.cubridmanager.core.common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+import com.cubrid.common.ui.spi.model.CubridServer;
 import com.cubrid.cubridmanager.core.common.model.ServerInfo;
+import com.cubrid.cubridmanager.ui.spi.model.loader.CubridServerLoader;
+import com.cubrid.cubridmanager.ui.spi.persist.CMHostNodePersistManager;
 
 /**
  * This class is responsible to manage all CUBRID Manager server
@@ -46,7 +45,6 @@ import com.cubrid.cubridmanager.core.common.model.ServerInfo;
 public final class ServerManager {
 
 	private static ServerManager manager = new ServerManager();
-	private final Map<String, ServerInfo> serverInfoMap = new HashMap<String, ServerInfo>();
 
 	private ServerManager() {
 	}
@@ -106,7 +104,15 @@ public final class ServerManager {
 	 * @return ServerInfo
 	 */
 	public ServerInfo getServer(String hostAddress, int port, String userName) {
-		return serverInfoMap.get(hostAddress + ":" + port + ":" + userName);
+		List<CubridServer> servers = CMHostNodePersistManager.getInstance().getAllServer();
+		for(CubridServer server : servers){
+			if(server.getServerInfo().getHostAddress().compareTo(hostAddress) == 0 &&
+					server.getServerInfo().getHostMonPort() == port &&
+					server.getServerInfo().getUserName().compareTo(userName) == 0){
+				return server.getServerInfo();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -119,7 +125,15 @@ public final class ServerManager {
 	public void removeServer(String hostAddress, int port, String userName) {
 		synchronized (this) {
 			setConnected(hostAddress, port, userName, false);
-			serverInfoMap.remove(hostAddress + ":" + port + ":" + userName);
+			Iterator<CubridServer> servers = CMHostNodePersistManager.getInstance().getAllServer().iterator();
+			while(servers.hasNext()){
+				CubridServer server = (CubridServer)servers.next();
+				if(server.getServerInfo().getServerName().compareTo(hostAddress) == 0 &&
+						server.getServerInfo().getHostMonPort() == port &&
+						server.getServerInfo().getUserName().compareTo(userName) == 0){
+					servers.remove();
+				}
+			}
 		}
 	}
 
@@ -132,30 +146,37 @@ public final class ServerManager {
 	 * @param userName the String
 	 * @return ServerInfo
 	 */
-	public ServerInfo addServer(String hostAddress, int port, String userName, ServerInfo value) {
+	public void addServer(String hostAddress, int port, String userName, ServerInfo value) {
 		synchronized (this) {
-			return serverInfoMap.put(hostAddress + ":" + port + ":" + userName, value);
+			CubridServer server = CMHostNodePersistManager.getInstance().getServer(hostAddress, port, userName);
+			if(server == null){
+				CubridServer newServer = new CubridServer(value.getServerName(),
+						value.getServerName(), "com.cubrid.cubridmananger.ui/icons/navigator/host.png",
+						"com.cubrid.cubridmananger.ui/icons/navigator/host_connected.png");
+				newServer.setServerInfo(value);
+				newServer.setLoader(new CubridServerLoader());
+				CMHostNodePersistManager.getInstance().addServer(newServer);
+			}else{
+				server.setServerInfo(value);
+			}
 		}
 	}
 
 	public void disConnectAllServer() {
 		synchronized (this) {
-			if (serverInfoMap != null) {
-				List<ServerInfo> serverInfoList = new ArrayList<ServerInfo>();
-				serverInfoList.addAll(serverInfoMap.values());
-				Iterator<ServerInfo> it = serverInfoList.iterator();
-				while (it.hasNext()) {
-					ServerInfo serverInfo = it.next();
-					if (serverInfo.isConnected()) {
-						setConnected(serverInfo.getHostAddress(), serverInfo.getHostMonPort(),
-								serverInfo.getLoginedUserInfo().getUserName(), false);
-					}
+			Iterator<CubridServer> servers = CMHostNodePersistManager.getInstance().getAllServer().iterator();
+			while (servers.hasNext()) {
+				ServerInfo serverInfo = servers.next().getServerInfo();
+				if (serverInfo.isConnected()) {
+					setConnected(serverInfo.getHostAddress(), serverInfo.getHostMonPort(),
+							serverInfo.getLoginedUserInfo().getUserName(), false);
 				}
 			}
 		}
 	}
-
-	public Collection<ServerInfo> getAllServerInfo() {
-		return serverInfoMap.values();
+	
+	public List<CubridServer> getAllServers(){
+		return CMHostNodePersistManager.getInstance().getAllServer();
 	}
+
 }

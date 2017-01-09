@@ -470,7 +470,7 @@ public class ServiceDashboardEditor extends CubridEditorPart {
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
-				editHostAction.doRun(getSelectedServer());
+				editHostAction.doRun(getSelectedServer(), false);
 				loadAllData();
 			}
 		});

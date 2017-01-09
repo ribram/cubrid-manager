@@ -168,7 +168,7 @@ public class NewMultiHostConnectionDialog extends CMTitleAreaDialog {
 				|| multiHostConnectionFailedServerInfo.getCubridServer().isConnected()) {
 			return;
 		}
-		HostDialog dialog = new HostDialog(getShell(), false);
+		HostDialog dialog = new HostDialog(getShell(), false, false);
 		ServerInfo oldServerInfo = multiHostConnectionFailedServerInfo.getCubridServer().getServerInfo();
 		dialog.setServer(multiHostConnectionFailedServerInfo.getCubridServer());
 		if (dialog.open() != HostDialog.CONNECT_ID) {

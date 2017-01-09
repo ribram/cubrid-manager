@@ -3,6 +3,7 @@
 	<name>com.cubrid.cubridmanager.core</name>
 	<comment></comment>
 	<projects>
+		<project>com.cubrid.cubridmanager.ui</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

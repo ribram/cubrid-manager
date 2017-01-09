@@ -390,10 +390,10 @@ public final class QueryOptions {
 			pref.put(prefix + QueryOptions.CHAR_SET, charSet);
 		}
 		if (serverInfo == null) {
-			Iterator<ServerInfo> serverInfoIte = ServerManager.getInstance()
-					.getAllServerInfo().iterator();
-			while (serverInfoIte.hasNext()) {
-				changeCharset(serverInfoIte.next());
+			Iterator<CubridServer> serverIte = ServerManager.getInstance()
+					.getAllServers().iterator();
+			while (serverIte.hasNext()) {
+				changeCharset(serverIte.next().getServerInfo());
 			}
 		} else {
 			changeCharset(serverInfo);
