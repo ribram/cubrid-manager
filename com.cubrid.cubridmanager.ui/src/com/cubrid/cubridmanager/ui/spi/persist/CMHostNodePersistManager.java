@@ -359,11 +359,6 @@ public final class CMHostNodePersistManager {
 	public void addServer(CubridServer server) {
 		synchronized (this) {
 			if (server != null) {
-				ServerManager.getInstance().addServer(
-						server.getServerInfo().getHostAddress(),
-						server.getServerInfo().getHostMonPort(),
-						server.getServerInfo().getUserName(),
-						server.getServerInfo());
 				serverList.add(server);
 				saveServers();
 				CubridNodeManager.getInstance().fireCubridNodeChanged(
@@ -382,10 +377,6 @@ public final class CMHostNodePersistManager {
 	public void removeServer(CubridServer server) {
 		synchronized (this) {
 			if (server != null) {
-				ServerManager.getInstance().removeServer(
-						server.getServerInfo().getHostAddress(),
-						server.getServerInfo().getHostMonPort(),
-						server.getServerInfo().getUserName());
 				serverList.remove(server);
 				CMDBNodePersistManager.getInstance().deleteParameter(server);
 				saveServers();
@@ -405,10 +396,6 @@ public final class CMHostNodePersistManager {
 		synchronized (this) {
 			for (int i = 0; i < serverList.size(); i++) {
 				CubridServer server = serverList.get(i);
-				ServerManager.getInstance().removeServer(
-						server.getServerInfo().getHostAddress(),
-						server.getServerInfo().getHostMonPort(),
-						server.getServerInfo().getUserName());
 				serverList.remove(server);
 				CMDBNodePersistManager.getInstance().deleteParameter(server);
 				CubridNodeManager.getInstance().fireCubridNodeChanged(
@@ -430,6 +417,17 @@ public final class CMHostNodePersistManager {
 		for (int i = 0; i < serverList.size(); i++) {
 			CubridServer server = serverList.get(i);
 			if (server.getId().equals(id)) {
+				return server;
+			}
+		}
+		return null;
+	}
+	
+	public CubridServer getServer(String hostAddress, int port, String userName){
+		for(CubridServer server : serverList){
+			if(server.getServerInfo().getHostAddress().compareTo(hostAddress) == 0 &&
+					server.getServerInfo().getHostMonPort() == port &&
+					server.getServerInfo().getUserName().compareTo(userName) == 0){
 				return server;
 			}
 		}
@@ -530,5 +528,4 @@ public final class CMHostNodePersistManager {
 		loadSevers();
 		return serverList;
 	}
-
 }
