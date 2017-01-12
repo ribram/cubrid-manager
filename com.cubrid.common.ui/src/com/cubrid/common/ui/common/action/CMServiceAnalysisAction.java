@@ -54,11 +54,11 @@ public class CMServiceAnalysisAction extends Action {
 	}
 
 	public void run() {
-		/*HaShardManager haShardManager = HaShardManager.getInstance();
+		HaShardManager haShardManager = HaShardManager.getInstance();
 		
-		HaShardDemo.registerServiceAndConnect("192.168.1.60", 8001, "admin", 
-				"123456", "HA Master");
-		HA node lis
+		/*HaShardDemo.registerServiceAndConnect("192.168.1.60", 8001, "admin", 
+				"123456", "HA Master");*/
+		//HA node lis
 		HaShardDemo demo = new HaShardDemo();
 		demo.registerServiceAndBuildInfo("192.168.1.119", 8001, "admin", 
 				"1111", "www.cubrid.org", "Broker Server 1", "dev-cub-ha-005.ncl");
@@ -107,6 +107,6 @@ public class CMServiceAnalysisAction extends Action {
 		System.out.println("[Brokers]");
 		for(NodeInfo node : brokerNodes){
 			System.out.println(node);
-		}*/
+		}
 	}
 }
