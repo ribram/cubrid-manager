@@ -6,6 +6,7 @@ import com.cubrid.cubridmanager.core.common.ServerManager;
 import com.cubrid.cubridmanager.core.common.model.ServerInfo;
 import com.cubrid.cubridmanager.core.common.socket.ClientSocket;
 import com.cubrid.cubridmanager.core.common.task.MonitoringTask;
+import com.cubrid.cubridmanager.ui.spi.persist.CMHostNodePersistManager;
 
 public class TestRawScript {
 

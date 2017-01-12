@@ -463,7 +463,7 @@ public class HostDialog extends
 			String password = passwordText.getText();
 			String jdbcDriverVersion = jdbcVersionCombo.getText();
 
-			serverInfo = ServerManager.getInstance().getServer(address,
+			serverInfo = CMHostNodePersistManager.getInstance().getServerInfo(address,
 					Integer.parseInt(port), userName);
 			if (serverInfo == null) {
 				serverInfo = new ServerInfo();

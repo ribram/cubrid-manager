@@ -26,4 +26,11 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>model</name>
+			<type>2</type>
+			<location>/home/paul/cubrid-manager/com.cubrid.common.ui/src/com/cubrid/common/ui/spi/model</location>
+		</link>
+	</linkedResources>
 </projectDescription>

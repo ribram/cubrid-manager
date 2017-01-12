@@ -65,6 +65,7 @@ import com.cubrid.cubridmanager.ui.host.Messages;
 import com.cubrid.cubridmanager.ui.mondashboard.preference.MonitorDashboardPreference;
 import com.cubrid.cubridmanager.ui.spi.Version;
 import com.cubrid.cubridmanager.ui.spi.model.loader.CubridDatabasesFolderLoader;
+import com.cubrid.cubridmanager.ui.spi.persist.CMHostNodePersistManager;
 import com.cubrid.jdbc.proxy.manage.ServerJdbcVersionMapping;
 
 /**
@@ -532,14 +533,14 @@ public class ConnectHostExecutor extends TaskExecutor {
 	}
 
 	private void removeServer(ServerInfo serverInfo) {
-		ServerManager.getInstance().removeServer(
+		CMHostNodePersistManager.getInstance().removeServer(
 				serverInfo.getHostAddress(),
 				serverInfo.getHostMonPort(),
 				serverInfo.getUserName());
 	}
 
 	private void addServer(ServerInfo serverInfo) {
-		ServerManager.getInstance().addServer(
+		CMHostNodePersistManager.getInstance().addServer(
 				serverInfo.getHostAddress(),
 				serverInfo.getHostMonPort(),
 				serverInfo.getUserName(),

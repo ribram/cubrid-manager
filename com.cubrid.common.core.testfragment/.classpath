@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry excluding="resource/" kind="src" path="src"/>
 	<classpathentry kind="src" path="resource"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/com.cubrid.cubridmanager.core.testfragment"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.cubrid.cubridmanager.core.testfragment"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -49,10 +49,10 @@ import com.cubrid.common.ui.query.control.DatabaseNavigatorMenu;
 import com.cubrid.common.ui.spi.model.CubridDatabase;
 import com.cubrid.common.ui.spi.model.CubridServer;
 import com.cubrid.common.ui.spi.model.DatabaseEditorConfig;
-import com.cubrid.cubridmanager.core.common.ServerManager;
 import com.cubrid.cubridmanager.core.common.model.ServerInfo;
 import com.cubrid.cubridmanager.core.common.model.ServerUserInfo;
 import com.cubrid.cubridmanager.core.cubrid.database.model.DatabaseInfo;
+import com.cubrid.cubridmanager.core.common.ServerManager;
 
 /**
  * 
@@ -390,10 +390,10 @@ public final class QueryOptions {
 			pref.put(prefix + QueryOptions.CHAR_SET, charSet);
 		}
 		if (serverInfo == null) {
-			Iterator<CubridServer> serverIte = ServerManager.getInstance()
-					.getAllServers().iterator();
-			while (serverIte.hasNext()) {
-				changeCharset(serverIte.next().getServerInfo());
+			ArrayList<ServerInfo> serverInfos = ServerManager.getInstance()
+					.getAllServerInfos(); 
+			for(ServerInfo info : serverInfos){
+				changeCharset(info);
 			}
 		} else {
 			changeCharset(serverInfo);

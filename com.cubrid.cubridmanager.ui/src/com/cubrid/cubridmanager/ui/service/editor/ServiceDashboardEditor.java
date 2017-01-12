@@ -617,7 +617,7 @@ public class ServiceDashboardEditor extends CubridEditorPart {
 			List<CubridGroupNode> groupList = loadCubridGroupData(inputList);
 			serviceTreeViewer.setInput(groupList);
 		} else {
-			inputList = CMHostNodePersistManager.getInstance().getAllServer();
+			inputList = CMHostNodePersistManager.getInstance().getAllServers();
 			loadServerDashboardInfo(inputList);
 			serviceTreeViewer.setInput(ServiceDashboardInfoMap);
 		}

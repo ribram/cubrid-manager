@@ -7,8 +7,7 @@ Bundle-Activator: com.cubrid.cubridmanager.core.CubridManagerCorePlugin
 Bundle-Vendor: Search Solution Corporation
 Require-Bundle: org.eclipse.core.runtime,
  org.apache.log4j,
- com.cubrid.common.core,
- com.cubrid.cubridmanager.ui;bundle-version="9.3.1"
+ com.cubrid.common.core
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
@@ -68,4 +67,3 @@ Export-Package: com.cubrid.cubridmanager.core,
  com.cubrid.cubridmanager.core.utils,
  com.cubrid.jdbc.proxy.driver,
  com.cubrid.jdbc.proxy.manage
-Import-Package: com.cubrid.common.ui.spi.model

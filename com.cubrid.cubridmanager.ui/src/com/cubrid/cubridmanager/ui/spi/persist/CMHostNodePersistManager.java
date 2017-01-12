@@ -359,6 +359,11 @@ public final class CMHostNodePersistManager {
 	public void addServer(CubridServer server) {
 		synchronized (this) {
 			if (server != null) {
+				ServerManager.getInstance().addServer(
+						server.getServerInfo().getHostAddress(),
+						server.getServerInfo().getHostMonPort(),
+						server.getServerInfo().getUserName(),
+						server.getServerInfo());
 				serverList.add(server);
 				saveServers();
 				CubridNodeManager.getInstance().fireCubridNodeChanged(
@@ -377,6 +382,10 @@ public final class CMHostNodePersistManager {
 	public void removeServer(CubridServer server) {
 		synchronized (this) {
 			if (server != null) {
+				ServerManager.getInstance().removeServer(
+						server.getHostAddress(),
+						server.getServerInfo().getHostMonPort(),
+						server.getServerInfo().getUserName());
 				serverList.remove(server);
 				CMDBNodePersistManager.getInstance().deleteParameter(server);
 				saveServers();
@@ -396,6 +405,10 @@ public final class CMHostNodePersistManager {
 		synchronized (this) {
 			for (int i = 0; i < serverList.size(); i++) {
 				CubridServer server = serverList.get(i);
+				ServerManager.getInstance().removeServer(
+						server.getHostAddress(),
+						server.getServerInfo().getHostMonPort(),
+						server.getServerInfo().getUserName());
 				serverList.remove(server);
 				CMDBNodePersistManager.getInstance().deleteParameter(server);
 				CubridNodeManager.getInstance().fireCubridNodeChanged(
@@ -432,16 +445,6 @@ public final class CMHostNodePersistManager {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 *
-	 * Get All servers
-	 *
-	 * @return all CubridServer objects
-	 */
-	public List<CubridServer> getAllServer() {
-		return serverList;
 	}
 
 	/**
@@ -528,4 +531,86 @@ public final class CMHostNodePersistManager {
 		loadSevers();
 		return serverList;
 	}
+	
+	public ServerInfo getServerInfo(String hostAddress, int port, String userName) {
+		CubridServer server = getServer(hostAddress, port, userName);
+		if(server == null){
+			return null;
+		}else{
+			return server.getServerInfo();
+		}
+	}
+
+	/**
+	 * Remove CUBRID Manager server
+	 * 
+	 * @param hostAddress String host address
+	 * @param port int host port
+	 * @param userName the String
+	 */
+	public void removeServer(String hostAddress, int port, String userName) {
+		synchronized (this) {
+			Iterator<CubridServer> servers = serverList.iterator();
+			while(servers.hasNext()){
+				CubridServer server = (CubridServer)servers.next();
+				if(server.getServerInfo().getServerName().compareTo(hostAddress) == 0 &&
+						server.getServerInfo().getHostMonPort() == port &&
+						server.getServerInfo().getUserName().compareTo(userName) == 0){
+					server.getServerInfo().setConnected(false);
+					servers.remove();
+					ServerManager.getInstance().removeServer(hostAddress, port, userName);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Add CUBRID Manager server information
+	 * 
+	 * @param hostAddress String host address
+	 * @param port int host port
+	 * @param value ServerInfo given serverInfo
+	 * @param userName the String
+	 * @return ServerInfo
+	 */
+	public void addServer(String hostAddress, int port, String userName, ServerInfo value) {
+		synchronized (this) {
+			CubridServer server = getServer(hostAddress, port, userName);
+			if(server == null){
+				CubridServer newServer = new CubridServer(value.getServerName(),
+						value.getServerName(), "com.cubrid.cubridmananger.ui/icons/navigator/host.png",
+						"com.cubrid.cubridmananger.ui/icons/navigator/host_connected.png");
+				newServer.setServerInfo(value);
+				newServer.setLoader(new CubridServerLoader());
+				addServer(newServer);
+			}else{
+				server.setServerInfo(value);
+			}
+		}
+	}
+
+	public void disConnectAllServer() {
+		synchronized (this) {
+			Iterator<CubridServer> servers = serverList.iterator();
+			while (servers.hasNext()) {
+				CubridServer cubridServer = servers.next();
+				ServerInfo serverInfo = cubridServer.getServerInfo();
+				if (serverInfo.isConnected()) {
+					cubridServer.getServerInfo().setConnected(false);
+				}
+			}
+		}
+	}
+	
+	/**
+	 *
+	 * Get All servers
+	 *
+	 * @return all CubridServer objects
+	 */
+	
+	public List<CubridServer> getAllServers(){
+		return serverList;
+	}
+
 }

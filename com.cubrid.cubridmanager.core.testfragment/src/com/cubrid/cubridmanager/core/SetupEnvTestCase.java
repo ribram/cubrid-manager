@@ -70,6 +70,7 @@ import com.cubrid.cubridmanager.core.cubrid.jobauto.task.DelBackupPlanTask;
 import com.cubrid.cubridmanager.core.cubrid.user.model.DbUserInfo;
 import com.cubrid.cubridmanager.core.cubrid.user.task.UpdateAddUserTask;
 import com.cubrid.cubridmanager.core.utils.ModelUtil.YesNoType;
+import com.cubrid.cubridmanager.ui.spi.persist.CMHostNodePersistManager;
 import com.cubrid.jdbc.proxy.manage.JdbcClassLoaderFactory;
 
 /**

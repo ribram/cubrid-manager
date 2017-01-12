@@ -13,6 +13,5 @@
 	<classpathentry kind="lib" path="lib/httpmime-4.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.cubrid.cubridmanager.ui"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

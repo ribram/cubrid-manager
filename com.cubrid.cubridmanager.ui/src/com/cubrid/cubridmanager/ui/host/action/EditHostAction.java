@@ -227,7 +227,7 @@ public class EditHostAction extends SelectionAction {
 
 				server.setId(newServerInfo.getServerName());
 				server.setLabel(newServerInfo.getServerName());
-				ServerManager.getInstance().addServer(
+				CMHostNodePersistManager.getInstance().addServer(
 						newServerInfo.getHostAddress(),
 						newServerInfo.getHostMonPort(),
 						newServerInfo.getUserName(), newServerInfo);
@@ -306,7 +306,7 @@ public class EditHostAction extends SelectionAction {
 		server.setLabel(serverInfo.getServerName());
 		server.setServerInfo(serverInfo);
 		server.setAutoSavePassword(dialog.isSavePassword());
-		ServerManager.getInstance().addServer(serverInfo.getHostAddress(),
+		CMHostNodePersistManager.getInstance().addServer(serverInfo.getHostAddress(),
 				serverInfo.getHostMonPort(), serverInfo.getUserName(),
 				serverInfo);
 
