@@ -141,7 +141,7 @@ public class ConnectHostExecutor extends TaskExecutor {
 	public void cancel() {
 		super.cancel();
 		if (serverInfo != null) {
-			ServerManager.getInstance().setConnected(
+			ServerManager.setConnected(
 					serverInfo.getHostAddress(), serverInfo.getHostMonPort(),
 					serverInfo.getUserName(), false);
 		}
@@ -153,7 +153,7 @@ public class ConnectHostExecutor extends TaskExecutor {
 	 */
 	private void disConnect() {
 		if (serverInfo != null) {
-			ServerManager.getInstance().setConnected(
+			ServerManager.setConnected(
 					serverInfo.getHostAddress(), serverInfo.getHostMonPort(),
 					serverInfo.getUserName(), false);
 		}
@@ -273,15 +273,15 @@ public class ConnectHostExecutor extends TaskExecutor {
 		for (ITask task : taskList) {
 			if (task instanceof MonitoringTask) {
 				if (!serverInfo.isConnected()) {
-					addServer(serverInfo);
+					addServerInHashMap(serverInfo);
 					MonitoringTask monitoringTask = (MonitoringTask) task;
 					serverInfo = monitoringTask.connectServer(
 							Version.releaseVersion,
 							monPref.getHAHeartBeatTimeout());
 					if (serverInfo.isConnected()) {
-						addServer(serverInfo);
+						addServerInHashMap(serverInfo);
 					} else {
-						removeServer(serverInfo);
+						removeServerFromHashMap(serverInfo);
 					}
 				}
 				changePassword();
@@ -538,15 +538,30 @@ public class ConnectHostExecutor extends TaskExecutor {
 				serverInfo.getHostMonPort(),
 				serverInfo.getUserName());
 	}
-
-	private void addServer(ServerInfo serverInfo) {
-		CMHostNodePersistManager.getInstance().addServer(
+	
+	private void removeServerFromHashMap(ServerInfo serverInfo) {
+		CMHostNodePersistManager.getInstance().removeServerFromHashMap(
+				serverInfo.getHostAddress(),
+				serverInfo.getHostMonPort(),
+				serverInfo.getUserName());
+	}
+	
+	private void addServerInHashMap(ServerInfo serverInfo){
+		CMHostNodePersistManager.getInstance().addServerInHashMap(
 				serverInfo.getHostAddress(),
 				serverInfo.getHostMonPort(),
 				serverInfo.getUserName(),
 				serverInfo);
 	}
 
+	private void addServer(ServerInfo serverInfo){
+		CMHostNodePersistManager.getInstance().addServer(
+				serverInfo.getHostAddress(),
+				serverInfo.getHostMonPort(),
+				serverInfo.getUserName(),
+				serverInfo);
+	}
+	
 	/**
 	 * Retrieves the version of client
 	 *

@@ -267,7 +267,7 @@ public class ReplServerDialog extends
 		TaskExecutor taskExcutor = new TaskExecutor() {
 
 			public void disConnect() {
-				ServerManager.getInstance().setConnected(ip,
+				ServerManager.setConnected(ip,
 						Integer.parseInt(port), userName, false);
 			}
 
@@ -330,7 +330,7 @@ public class ReplServerDialog extends
 					final String msg = task.getErrorMsg();
 					if (openErrorBox(getShell(), msg, monitor)) {
 						if (isConnected) {
-							ServerManager.getInstance().setConnected(ip,
+							ServerManager.setConnected(ip,
 									Integer.parseInt(port), userName, false);
 
 						}
@@ -352,7 +352,7 @@ public class ReplServerDialog extends
 			}
 		};
 
-		boolean isConnected = ServerManager.getInstance().isConnected(ip,
+		boolean isConnected = ServerManager.isConnected(ip,
 				Integer.parseInt(port), userName);
 		ServerInfo serverInfo = new ServerInfo();
 		if (isConnected) {

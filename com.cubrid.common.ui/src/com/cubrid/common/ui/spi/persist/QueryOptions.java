@@ -390,10 +390,9 @@ public final class QueryOptions {
 			pref.put(prefix + QueryOptions.CHAR_SET, charSet);
 		}
 		if (serverInfo == null) {
-			ArrayList<ServerInfo> serverInfos = ServerManager.getInstance()
-					.getAllServerInfos(); 
-			for(ServerInfo info : serverInfos){
-				changeCharset(info);
+			Iterator<Map.Entry<String, ServerInfo>> serverInfos = ServerManager.getAllServerInfos().entrySet().iterator(); 
+			while(serverInfos.hasNext()){
+				changeCharset(serverInfos.next().getValue());
 			}
 		} else {
 			changeCharset(serverInfo);

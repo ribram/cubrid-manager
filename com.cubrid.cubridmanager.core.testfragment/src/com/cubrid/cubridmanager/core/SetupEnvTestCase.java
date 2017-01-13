@@ -213,8 +213,7 @@ public abstract class SetupEnvTestCase extends
 		serverInfo.setUserName(userName);
 		serverInfo.setUserPassword(passwd);
 		serverInfo.setJdbcDriverVersion(serverVersion);
-		ServerManager.getInstance().addServer(host, monport, userName,
-				serverInfo);
+		CMHostNodePersistManager.getInstance().addServer(host, monport, userName, serverInfo);
 
 		MonitoringTask monTask = new MonitoringTask(serverInfo);
 		serverInfo = monTask.connectServer(serverVersion, 1000);
@@ -361,8 +360,8 @@ public abstract class SetupEnvTestCase extends
 		serverInfo831.setUserName(userName831);
 		serverInfo831.setUserPassword(passwd831);
 		serverInfo831.setJdbcDriverVersion(serverVersion831);
-		ServerManager.getInstance().addServer(host831, monport831, userName831,
-				serverInfo831);
+		CMHostNodePersistManager.getInstance().addServer(host831, monport831, userName831,
+														serverInfo831);
 
 		MonitoringTask monTask = new MonitoringTask(serverInfo831);
 		serverInfo831 = monTask.connectServer(serverVersion831, 1000);
@@ -501,8 +500,8 @@ public abstract class SetupEnvTestCase extends
 		serverInfo930.setUserName(userName930);
 		serverInfo930.setUserPassword(passwd930);
 		serverInfo930.setJdbcDriverVersion(serverVersion930);
-		ServerManager.getInstance().addServer(host930, monport930, userName930,
-				serverInfo930);
+		CMHostNodePersistManager.getInstance().addServer(host930, monport930, userName930,
+														serverInfo930);
 
 		MonitoringTask monTask = new MonitoringTask(serverInfo930);
 		serverInfo930 = monTask.connectServer(serverVersion930, 1000);

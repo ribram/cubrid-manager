@@ -331,10 +331,6 @@ public class ServerInfo extends PropertyChangeProvider implements IServerSpec {
 	public MonitoringTask getMonitoringTask() {
 		synchronized (this) {
 			if (monitoringTask == null) {
-				if (getHostAddress() != null) {
-					ServerManager.getInstance().addServer(getHostAddress(),
-							getHostMonPort(), getUserName(), this);
-				}
 				monitoringTask = new MonitoringTask(this);
 			}
 			return monitoringTask;

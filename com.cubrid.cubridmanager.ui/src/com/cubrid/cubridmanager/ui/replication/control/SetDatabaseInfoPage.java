@@ -345,7 +345,7 @@ public class SetDatabaseInfoPage extends
 						final String msg = task.getErrorMsg();
 						if (monitor.isCanceled()) {
 							if (isConnected) {
-								ServerManager.getInstance().setConnected(ip,
+								ServerManager.setConnected(ip,
 										Integer.parseInt(port), userName, false);
 							}
 							return false;
@@ -359,7 +359,7 @@ public class SetDatabaseInfoPage extends
 								}
 							});
 							if (isConnected) {
-								ServerManager.getInstance().setConnected(ip,
+								ServerManager.setConnected(ip,
 										Integer.parseInt(port), userName, false);
 							}
 							return false;
@@ -367,7 +367,7 @@ public class SetDatabaseInfoPage extends
 					}
 					if (!monitor.isCanceled()) {
 						if (isConnected) {
-							ServerManager.getInstance().setConnected(ip,
+							ServerManager.setConnected(ip,
 									Integer.parseInt(port), userName, false);
 						}
 						display.syncExec(new Runnable() {
@@ -381,7 +381,7 @@ public class SetDatabaseInfoPage extends
 				}
 			};
 			ServerInfo serverInfo = new ServerInfo();
-			if (ServerManager.getInstance().isConnected(ip,
+			if (ServerManager.isConnected(ip,
 					Integer.parseInt(port), userName)) {
 				serverInfo = CMHostNodePersistManager.getInstance().getServerInfo(ip,
 						Integer.parseInt(port), userName);

@@ -35,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -74,10 +75,12 @@ public final class CMHostNodePersistManager {
 
 	private final static String SERVER_XML_CONTENT = "CUBRID_SERVERS";
 	private List<CubridServer> serverList = null;
+	private HashMap<String, ServerInfo> serverInfos = new HashMap<String, ServerInfo>();
 	private static CMHostNodePersistManager instance;
 
 	private CMHostNodePersistManager() {
 		init();
+		ServerManager.setServerInfos(serverInfos);
 	}
 
 	/**
@@ -153,6 +156,7 @@ public final class CMHostNodePersistManager {
 				server.setType(NodeType.SERVER);
 				server.setLoader(new CubridServerLoader());
 				serverList.add(0, server);
+				serverInfos.put(serverInfo.getHostAddress()+":"+serverInfo.getHostMonPort()+":"+serverInfo.getUserName(), serverInfo);
 				/*Save the server list*/
 				saveServers();
 			}
@@ -256,6 +260,7 @@ public final class CMHostNodePersistManager {
 				QueryOptions.load(optionPath, serverInfo);
 			}
 			servers.add(server);
+			serverInfos.put(serverInfo.getHostAddress()+":"+serverInfo.getHostMonPort()+":"+serverInfo.getUserName(), serverInfo);
 		}
 		return isHasLocalHost;
 	}
@@ -359,18 +364,27 @@ public final class CMHostNodePersistManager {
 	public void addServer(CubridServer server) {
 		synchronized (this) {
 			if (server != null) {
-				ServerManager.getInstance().addServer(
-						server.getServerInfo().getHostAddress(),
-						server.getServerInfo().getHostMonPort(),
-						server.getServerInfo().getUserName(),
-						server.getServerInfo());
 				serverList.add(server);
+				serverInfos.put(server.getServerInfo().getHostAddress() + ":"
+						+ server.getServerInfo().getHostMonPort() + ":"
+						+ server.getServerInfo().getUserName(),
+						server.getServerInfo());
 				saveServers();
 				CubridNodeManager.getInstance().fireCubridNodeChanged(
 						new CubridNodeChangedEvent(server,
 								CubridNodeChangedEventType.NODE_ADD));
 			}
 		}
+	}
+	
+	public void addServerInHashMap(String hostAddress, int port, String userName, ServerInfo info){
+		/*
+		 * Used only when connecting or when testing connection of host.
+		 * With current implementation, connect and test don't work unless the host is in the hashmap
+		 * If the testing host is added using addServer, some visual bugs appear.
+		 * If the testing host isn't added at all, it doesn't work.
+		 */
+		serverInfos.put(hostAddress+":"+port+":"+userName, info);
 	}
 
 	/**
@@ -382,10 +396,9 @@ public final class CMHostNodePersistManager {
 	public void removeServer(CubridServer server) {
 		synchronized (this) {
 			if (server != null) {
-				ServerManager.getInstance().removeServer(
-						server.getHostAddress(),
-						server.getServerInfo().getHostMonPort(),
-						server.getServerInfo().getUserName());
+				serverInfos.remove(server.getServerInfo().getHostAddress()+":"+
+								server.getServerInfo().getHostMonPort()+":"+
+								server.getServerInfo().getUserName());
 				serverList.remove(server);
 				CMDBNodePersistManager.getInstance().deleteParameter(server);
 				saveServers();
@@ -395,7 +408,7 @@ public final class CMHostNodePersistManager {
 			}
 		}
 	}
-
+	
 	/**
 	 *
 	 * Remove all servers
@@ -405,9 +418,8 @@ public final class CMHostNodePersistManager {
 		synchronized (this) {
 			for (int i = 0; i < serverList.size(); i++) {
 				CubridServer server = serverList.get(i);
-				ServerManager.getInstance().removeServer(
-						server.getHostAddress(),
-						server.getServerInfo().getHostMonPort(),
+				serverInfos.remove(server.getHostAddress() + ":" +
+						server.getServerInfo().getHostMonPort() + ":" +
 						server.getServerInfo().getUserName());
 				serverList.remove(server);
 				CMDBNodePersistManager.getInstance().deleteParameter(server);
@@ -533,12 +545,7 @@ public final class CMHostNodePersistManager {
 	}
 	
 	public ServerInfo getServerInfo(String hostAddress, int port, String userName) {
-		CubridServer server = getServer(hostAddress, port, userName);
-		if(server == null){
-			return null;
-		}else{
-			return server.getServerInfo();
-		}
+		return serverInfos.get(hostAddress+":"+port+":"+userName);
 	}
 
 	/**
@@ -558,10 +565,14 @@ public final class CMHostNodePersistManager {
 						server.getServerInfo().getUserName().compareTo(userName) == 0){
 					server.getServerInfo().setConnected(false);
 					servers.remove();
-					ServerManager.getInstance().removeServer(hostAddress, port, userName);
 				}
 			}
+			serverInfos.remove(hostAddress+":"+port+":"+userName);
 		}
+	}
+	
+	public void removeServerFromHashMap(String hostAddress, int port, String userName){
+		serverInfos.remove(hostAddress+":"+port+":"+userName);
 	}
 
 	/**
@@ -586,6 +597,7 @@ public final class CMHostNodePersistManager {
 			}else{
 				server.setServerInfo(value);
 			}
+			serverInfos.put(hostAddress+":"+port+":"+userName, value);
 		}
 	}
 

@@ -29,6 +29,7 @@
 package com.cubrid.cubridmanager.core.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.cubrid.cubridmanager.core.common.model.ServerInfo;
 
@@ -40,47 +41,10 @@ import com.cubrid.cubridmanager.core.common.model.ServerInfo;
  */
 public final class ServerManager {
 
-	private static ServerManager manager = new ServerManager();
-	ArrayList<ServerInfo> serverInfos = new ArrayList<ServerInfo>();
-
-	private ServerManager() {
-	}
-
-	/**
-	 * Return the only CUBRID Manager server manager instance
-	 * 
-	 * @return ServerManager
-	 */
-	public static ServerManager getInstance() {
-		return manager;
-	}
-
-	public void addServer(String hostAddress, int port, String userName, ServerInfo serverInfo){
-		ServerInfo info = null;
-		if((info = getServer(hostAddress, port, userName)) != null){
-			serverInfos.remove(info);
-			serverInfos.add(serverInfo);
-		}else{
-			serverInfos.add(serverInfo);
-		}
-	}
+	private static HashMap<String, ServerInfo> serverInfos;
 	
-	public void removeServer(String hostAddress, int port, String userName){
-		ServerInfo info = null;
-		if((info = getServer(hostAddress, port, userName)) != null){
-			serverInfos.remove(info);
-		}
-	}
-	
-	public ServerInfo getServer(String hostAddress, int port, String userName){
-		for(ServerInfo info : serverInfos){
-			if(info.getHostAddress().compareTo(hostAddress) == 0 &&
-				info.getHostMonPort() == port &&
-				info.getUserName().compareTo(userName) == 0){
-				return info;
-			}
-		}
-		return null;
+	public static ServerInfo getServer(String hostAddress, int port, String userName){
+		return serverInfos.get(hostAddress + ":" + port + ":" + userName);
 	}
 	
 	/**
@@ -91,7 +55,7 @@ public final class ServerManager {
 	 * @param userName the String
 	 * @return boolean
 	 */
-	public boolean isConnected(String hostAddress, int port, String userName) {
+	public static boolean isConnected(String hostAddress, int port, String userName) {
 		ServerInfo serverInfo = getServer(hostAddress, port, userName);
 		if (serverInfo == null) {
 			return false;
@@ -107,17 +71,21 @@ public final class ServerManager {
 	 * @param userName the String
 	 * @param isConnected boolean whether is connected
 	 */
-	public void setConnected(String hostAddress, int port, String userName, boolean isConnected) {
-		synchronized (this) {
+	public static void setConnected(String hostAddress, int port, String userName, boolean isConnected) {
+		synchronized (serverInfos) {
 			ServerInfo serverInfo = getServer(hostAddress, port, userName);
 			if (serverInfo == null) {
 				return;
 			}
 			serverInfo.setConnected(isConnected);
 		}
-	}	
+	}
 	
-	public ArrayList<ServerInfo> getAllServerInfos(){
+	public static void setServerInfos(HashMap<String, ServerInfo> infos){
+		serverInfos = infos;
+	}
+	
+	public static HashMap<String, ServerInfo> getAllServerInfos(){
 		return serverInfos;
 	}
 }

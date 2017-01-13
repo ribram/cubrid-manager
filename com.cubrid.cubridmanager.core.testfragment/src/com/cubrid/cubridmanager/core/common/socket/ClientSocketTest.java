@@ -119,7 +119,7 @@ public class ClientSocketTest extends
 			CMHostNodePersistManager.getInstance().removeServer("localhost", 8002, "dba");
 			CMHostNodePersistManager.getInstance().removeServer("localhost", 8003, "dba");
 			CMHostNodePersistManager.getInstance().removeServer("localhost", 8004, "dba");
-			assertNotNull(ServerManager.getInstance().getAllServerInfos());
+			assertNotNull(ServerManager.getAllServerInfos());
 		} catch (Exception e) {
 		}
 		
