@@ -50,9 +50,9 @@ import com.cubrid.common.ui.spi.model.CubridDatabase;
 import com.cubrid.common.ui.spi.model.CubridServer;
 import com.cubrid.common.ui.spi.model.DatabaseEditorConfig;
 import com.cubrid.cubridmanager.core.common.model.ServerInfo;
+import com.cubrid.cubridmanager.core.common.ServerManager;
 import com.cubrid.cubridmanager.core.common.model.ServerUserInfo;
 import com.cubrid.cubridmanager.core.cubrid.database.model.DatabaseInfo;
-import com.cubrid.cubridmanager.core.common.ServerManager;
 
 /**
  * 
