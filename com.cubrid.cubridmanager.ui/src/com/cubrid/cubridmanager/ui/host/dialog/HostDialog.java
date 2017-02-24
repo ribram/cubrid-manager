@@ -332,7 +332,6 @@ public class HostDialog extends
 			setTitle(Messages.titleAddHostDialog);
 			setMessage(Messages.msgAddHostDialog);
 		} else {
-			setTitle(Messages.titleConnectHostDialog);
 			setMessage(Messages.msgConnectHostDialog);
 		}
 		return parentComp;
